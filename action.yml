@@ -1,11 +1,32 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Promote Google Play Release Track'
+description: "Promote the latest open testing from one track to another on Google Play"
+author: 'kevin-david'
+branding:
+  icon: 'truck'
+  color: 'green'
 inputs:
-  milliseconds: # change this
+  service-account-json-raw:
+    description: "The raw json text of the service account private key to authorize the upload request"
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  package-name:
+    description: "The package name, or Application Id, of the app you are editing"
+    required: true
+  inapp-update-priority:
+    description: "In-app update priority of the release. All newly added APKs in the release will be considered at this priority. Can take values in the range [0, 5], with 5 the highest priority. Defaults to 0"
+    default: '0'
+    required: false
+  user-fraction:
+    description: "Portion of users who should get the staged version of the app. Accepts values between 0.0 and 1.0 (exclusive-inclusive). Defaults to 1.0"
+    default: 1.0
+    required: false
+  from-track:
+    description: "The source track to promote from. Defaults to beta."
+    default: "beta"
+    required: false
+  to-track:
+    description: "The target track to promote to. Defaults to production."
+    default: "production"
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'
