@@ -6,6 +6,8 @@ let serviceAccountFile = './serviceAccountJson.json'
 
 async function run(): Promise<void> {
   try {
+    // Code initially taken from https://github.com/boswelja/promote-play-beta-action
+
     const packageName = core.getInput('package-name', { required: true })
     const rawServiceAccountJson = core.getInput('service-account-json-raw', {
       required: true
@@ -66,11 +68,18 @@ async function run(): Promise<void> {
 
     const toTrackReleases = sourceReleases.map(release => {
       release.inAppUpdatePriority = inAppUpdatePriority
-      release.userFraction = userFraction
-      // See https://developers.google.com/android-publisher/api-ref/rest/v3/edits.tracks#status
-      // The API requires us to explicitly set this for some reason
-      // Otherwise, you get an error: `Error: Release status must be specified.`
-      release.status = userFraction === 1.0 ? 'completed' : 'inProgress'
+
+      if (userFraction === 1.0) {
+        // Assume this release is completed, and fully roll it out
+        release.status = 'completed'
+      } else {
+        // See https://developers.google.com/android-publisher/api-ref/rest/v3/edits.tracks#status
+        // The API requires us to explicitly set this for some reason
+        // Otherwise, you get an error: `Error: Release status must be specified.`
+        release.userFraction = userFraction
+        release.status = 'inProgress'
+      }
+
       return release
     })
 

@@ -21,6 +21,8 @@ In-app update priority of the release. All newly added APKs in the release will 
 
 Portion of users who should get the staged version of the app. Accepts values between 0.0 and 1.0 (exclusive-inclusive).
 
+Setting this to 1.0 will mark the release as `completed` - see docs [here](https://developers.google.com/android-publisher/api-ref/rest/v3/edits.tracks#status).
+
 ### `from-track`
 
 The source track to promote from. Defaults to beta.

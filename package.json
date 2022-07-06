@@ -21,6 +21,10 @@
     "actions",
     "google-play"
   ],
+  "bugs": {
+    "url": "https://github.com/kevin-david/promote-play-release/issues"
+  },
+  "homepage": "https://github.com/kevin-david/promote-play-release#readme",
   "author": "kevin-david",
   "license": "MIT",
   "dependencies": {
