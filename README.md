@@ -19,7 +19,7 @@ In-app update priority of the release. All newly added APKs in the release will 
 
 ### `user-fraction`
 
-Portion of users who should get the staged version of the app. Accepts values between 0.0 and 1.0 (exclusive-exclusive).
+Portion of users who should get the staged version of the app. Accepts values between 0.0 and 1.0 (exclusive-inclusive).
 
 ### `from-track`
 
