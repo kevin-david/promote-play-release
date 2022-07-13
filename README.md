@@ -1,7 +1,7 @@
 Typescript fork of https://github.com/boswelja/promote-play-beta-action
 
 # promote-play-beta-action
-Promote the latest open testing release from one track to another on Google Play.
+Promote the latest open testing release from one track to another on Google Play. Likely used in conjunction with the https://github.com/r0adkll/upload-google-play/ Action for a CD pipeline to Google Play.
 
 ## Inputs
 
