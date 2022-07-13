@@ -1,5 +1,5 @@
 name: 'Promote Google Play Release Track'
-description: "Promote the latest open testing from one track to another on Google Play"
+description: "Promote the latest open testing from one track to another on Google Play. Likely used with an Action that uploads the release first, such as https://github.com/r0adkll/upload-google-play/"
 author: 'kevin-david'
 branding:
   icon: 'truck'
