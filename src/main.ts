@@ -31,14 +31,13 @@ async function run(): Promise<void> {
     const auth = new google.auth.GoogleAuth({
       scopes: ['https://www.googleapis.com/auth/androidpublisher']
     })
-    const authClient = await auth.getClient()
 
     const publisher: androidpublisher_v3.Androidpublisher =
       google.androidpublisher('v3')
     core.info('Creating a new app edit')
     const appEdit = await publisher.edits.insert({
-      packageName,
-      auth: authClient
+      packageName: packageName,
+      auth: auth
     })
 
     const appEditId = appEdit.data.id
@@ -48,7 +47,7 @@ async function run(): Promise<void> {
 
     core.info(`Getting current ${fromTrack} info`)
     const sourceTrack = await publisher.edits.tracks.get({
-      auth: authClient,
+      auth: auth,
       packageName,
       editId: appEditId,
       track: fromTrack
@@ -85,7 +84,7 @@ async function run(): Promise<void> {
 
     core.info(`Switching ${fromTrack} release to ${toTrack}`)
     await publisher.edits.tracks.update({
-      auth: authClient,
+      auth: auth,
       editId: appEditId,
       track: toTrack,
       packageName,
@@ -97,7 +96,7 @@ async function run(): Promise<void> {
 
     core.info('Committing changes')
     const commitResult = await publisher.edits.commit({
-      auth: authClient,
+      auth: auth,
       editId: appEditId,
       packageName
     })
