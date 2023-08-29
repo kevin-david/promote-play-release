@@ -1,6 +1,10 @@
 import * as core from '@actions/core'
 import * as fs from 'fs'
-import { auth, androidpublisher_v3, androidpublisher } from '@googleapis/androidpublisher'
+import {
+  auth,
+  androidpublisher_v3,
+  androidpublisher
+} from '@googleapis/androidpublisher'
 
 let serviceAccountFile = './serviceAccountJson.json'
 
@@ -32,11 +36,12 @@ async function run(): Promise<void> {
       scopes: ['https://www.googleapis.com/auth/androidpublisher']
     })
 
-    const publisher: androidpublisher_v3.Androidpublisher = androidpublisher('v3')
+    const publisher: androidpublisher_v3.Androidpublisher =
+      androidpublisher('v3')
     core.info('Creating a new app edit')
     const appEdit = await publisher.edits.insert({
-      packageName: packageName,
-      auth: auth
+      packageName,
+      auth
     })
 
     const appEditId = appEdit.data.id
@@ -46,7 +51,7 @@ async function run(): Promise<void> {
 
     core.info(`Getting current ${fromTrack} info`)
     const sourceTrack = await publisher.edits.tracks.get({
-      auth: auth,
+      auth,
       packageName,
       editId: appEditId,
       track: fromTrack
@@ -83,7 +88,7 @@ async function run(): Promise<void> {
 
     core.info(`Switching ${fromTrack} release to ${toTrack}`)
     await publisher.edits.tracks.update({
-      auth: auth,
+      auth,
       editId: appEditId,
       track: toTrack,
       packageName,
@@ -95,7 +100,7 @@ async function run(): Promise<void> {
 
     core.info('Committing changes')
     const commitResult = await publisher.edits.commit({
-      auth: auth,
+      auth,
       editId: appEditId,
       packageName
     })

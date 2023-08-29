@@ -69,7 +69,7 @@ function run() {
             const publisher = (0, androidpublisher_1.androidpublisher)('v3');
             core.info('Creating a new app edit');
             const appEdit = yield publisher.edits.insert({
-                packageName: packageName,
+                packageName,
                 auth: androidpublisher_1.auth
             });
             const appEditId = appEdit.data.id;
