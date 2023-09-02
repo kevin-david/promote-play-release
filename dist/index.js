@@ -70,7 +70,7 @@ function run() {
             core.info('Creating a new app edit');
             const appEdit = yield publisher.edits.insert({
                 packageName,
-                auth: androidpublisher_1.auth
+                auth: authClient
             });
             const appEditId = appEdit.data.id;
             if (!appEditId) {
@@ -78,7 +78,7 @@ function run() {
             }
             core.info(`Getting current ${fromTrack} info`);
             const sourceTrack = yield publisher.edits.tracks.get({
-                auth: androidpublisher_1.auth,
+                auth: authClient,
                 packageName,
                 editId: appEditId,
                 track: fromTrack
@@ -106,7 +106,7 @@ function run() {
             });
             core.info(`Switching ${fromTrack} release to ${toTrack}`);
             yield publisher.edits.tracks.update({
-                auth: androidpublisher_1.auth,
+                auth: authClient,
                 editId: appEditId,
                 track: toTrack,
                 packageName,
@@ -117,7 +117,7 @@ function run() {
             });
             core.info('Committing changes');
             const commitResult = yield publisher.edits.commit({
-                auth: androidpublisher_1.auth,
+                auth: authClient,
                 editId: appEditId,
                 packageName
             });

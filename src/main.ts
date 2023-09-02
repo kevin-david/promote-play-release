@@ -41,7 +41,7 @@ async function run(): Promise<void> {
     core.info('Creating a new app edit')
     const appEdit = await publisher.edits.insert({
       packageName,
-      auth
+      auth: authClient
     })
 
     const appEditId = appEdit.data.id
@@ -51,7 +51,7 @@ async function run(): Promise<void> {
 
     core.info(`Getting current ${fromTrack} info`)
     const sourceTrack = await publisher.edits.tracks.get({
-      auth,
+      auth: authClient,
       packageName,
       editId: appEditId,
       track: fromTrack
@@ -88,7 +88,7 @@ async function run(): Promise<void> {
 
     core.info(`Switching ${fromTrack} release to ${toTrack}`)
     await publisher.edits.tracks.update({
-      auth,
+      auth: authClient,
       editId: appEditId,
       track: toTrack,
       packageName,
@@ -100,7 +100,7 @@ async function run(): Promise<void> {
 
     core.info('Committing changes')
     const commitResult = await publisher.edits.commit({
-      auth,
+      auth: authClient,
       editId: appEditId,
       packageName
     })
