@@ -1,6 +1,10 @@
 import * as core from '@actions/core'
 import * as fs from 'fs'
-import { google, androidpublisher_v3 } from 'googleapis'
+import {
+  auth,
+  androidpublisher_v3,
+  androidpublisher
+} from '@googleapis/androidpublisher'
 
 let serviceAccountFile = './serviceAccountJson.json'
 
@@ -28,13 +32,12 @@ async function run(): Promise<void> {
     core.exportVariable('GOOGLE_APPLICATION_CREDENTIALS', serviceAccountFile)
 
     core.debug('Authenticating: creating auth client')
-    const auth = new google.auth.GoogleAuth({
+    const authClient = new auth.GoogleAuth({
       scopes: ['https://www.googleapis.com/auth/androidpublisher']
     })
-    const authClient = await auth.getClient()
 
     const publisher: androidpublisher_v3.Androidpublisher =
-      google.androidpublisher('v3')
+      androidpublisher('v3')
     core.info('Creating a new app edit')
     const appEdit = await publisher.edits.insert({
       packageName,
