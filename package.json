@@ -4,6 +4,7 @@
   "private": true,
   "description": "Promote a Google Play release from one track to another",
   "main": "lib/main.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "format": "prettier --write '**/*.ts'",
@@ -34,12 +35,10 @@
   "devDependencies": {
     "@types/node": "^22.13.13",
     "@typescript-eslint/eslint-plugin": "^8.28.0",
-    "@typescript-eslint/parser": "^8.28.0",
     "@vercel/ncc": "^0.38.3",
     "eslint": "^9.23.0",
     "eslint-plugin-github": "^6.0.0",
     "eslint-plugin-jest": "^28.11.0",
-    "eslint-plugin-prettier": "^5.2.5",
     "jest": "^29.7.0",
     "js-yaml": "^4.1.0",
     "prettier": "^3.5.3",
