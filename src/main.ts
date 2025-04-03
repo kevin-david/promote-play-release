@@ -6,8 +6,8 @@ import {
   androidpublisher
 } from '@googleapis/androidpublisher'
 
-let serviceAccountFile = './serviceAccountJson.json';
-let isServiceAccountJsonRaw = false;
+let serviceAccountFile = './serviceAccountJson.json'
+let isServiceAccountJsonRaw = false
 
 async function run(): Promise<void> {
   try {
@@ -17,18 +17,22 @@ async function run(): Promise<void> {
     const rawServiceAccountJson = core.getInput('service-account-json-raw')
     const serviceAccountJsonFile = core.getInput('service-account-json-file')
 
-    isServiceAccountJsonRaw = !!rawServiceAccountJson;
-    
+    isServiceAccountJsonRaw = !!rawServiceAccountJson
+
     // Validate that at least one credential method is provided
     if (!rawServiceAccountJson && !serviceAccountJsonFile) {
-      throw new Error('Either service-account-json-raw or service-account-json-file must be provided')
+      throw new Error(
+        'Either service-account-json-raw or service-account-json-file must be provided'
+      )
     }
-    
+
     // If both are provided, prefer the file method
     if (rawServiceAccountJson && serviceAccountJsonFile) {
-      core.warning('Both service-account-json-raw and service-account-json-file are provided. Using service-account-json-file.')
+      core.warning(
+        'Both service-account-json-raw and service-account-json-file are provided. Using service-account-json-file.'
+      )
     }
-    
+
     const inAppUpdatePriority = parseInt(core.getInput('inapp-update-priority'))
     const userFraction = parseFloat(core.getInput('user-fraction'))
     const fromTrack = core.getInput('from-track')
@@ -37,11 +41,15 @@ async function run(): Promise<void> {
     // Handle credentials based on which method is provided
     if (serviceAccountJsonFile) {
       // Use the file provided by google-github-actions/auth
-      core.debug(`Using service account JSON from file: ${serviceAccountJsonFile}`)
+      core.debug(
+        `Using service account JSON from file: ${serviceAccountJsonFile}`
+      )
       serviceAccountFile = serviceAccountJsonFile
     } else {
       // Write the raw JSON to a file
-      core.debug('Writing service account JSON to file, setting env variable so auth can find it')
+      core.debug(
+        'Writing service account JSON to file, setting env variable so auth can find it'
+      )
       await fs.promises.writeFile(serviceAccountFile, rawServiceAccountJson, {
         encoding: 'utf8'
       })
