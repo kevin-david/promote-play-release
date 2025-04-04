@@ -1,4 +1,5 @@
 # Promote Play Release Action
+> Typescript fork of https://github.com/boswelja/promote-play-beta-action
 
 A GitHub Action that promotes Android app releases between different tracks on Google Play (e.g., from beta to production). This action is particularly useful when combined with the [upload-google-play](https://github.com/r0adkll/upload-google-play) action to create a complete CI/CD pipeline for your Android app.
 
