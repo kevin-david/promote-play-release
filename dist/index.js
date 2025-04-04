@@ -44,23 +44,41 @@ const core = __importStar(__nccwpck_require__(2186));
 const fs = __importStar(__nccwpck_require__(7147));
 const androidpublisher_1 = __nccwpck_require__(8159);
 let serviceAccountFile = './serviceAccountJson.json';
+let isServiceAccountJsonRaw = false;
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             // Code initially taken from https://github.com/boswelja/promote-play-beta-action
             const packageName = core.getInput('package-name', { required: true });
-            const rawServiceAccountJson = core.getInput('service-account-json-raw', {
-                required: true
-            });
+            const rawServiceAccountJson = core.getInput('service-account-json-raw');
+            const serviceAccountJsonFile = core.getInput('service-account-json-file');
+            isServiceAccountJsonRaw = !!rawServiceAccountJson;
+            // Validate that at least one credential method is provided
+            if (!rawServiceAccountJson && !serviceAccountJsonFile) {
+                throw new Error('Either service-account-json-raw or service-account-json-file must be provided');
+            }
+            // If both are provided, prefer the file method
+            if (rawServiceAccountJson && serviceAccountJsonFile) {
+                core.warning('Both service-account-json-raw and service-account-json-file are provided. Using service-account-json-file.');
+            }
             const inAppUpdatePriority = parseInt(core.getInput('inapp-update-priority'));
             const userFraction = parseFloat(core.getInput('user-fraction'));
             const fromTrack = core.getInput('from-track');
             const toTrack = core.getInput('to-track');
-            core.debug('Writing service account JSON to file, setting env variable so auth can find it');
-            yield fs.promises.writeFile(serviceAccountFile, rawServiceAccountJson, {
-                encoding: 'utf8'
-            });
-            serviceAccountFile = yield fs.promises.realpath(serviceAccountFile);
+            // Handle credentials based on which method is provided
+            if (serviceAccountJsonFile) {
+                // Use the file provided by google-github-actions/auth
+                core.debug(`Using service account JSON from file: ${serviceAccountJsonFile}`);
+                serviceAccountFile = serviceAccountJsonFile;
+            }
+            else {
+                // Write the raw JSON to a file
+                core.debug('Writing service account JSON to file, setting env variable so auth can find it');
+                yield fs.promises.writeFile(serviceAccountFile, rawServiceAccountJson, {
+                    encoding: 'utf8'
+                });
+                serviceAccountFile = yield fs.promises.realpath(serviceAccountFile);
+            }
             core.exportVariable('GOOGLE_APPLICATION_CREDENTIALS', serviceAccountFile);
             core.debug('Authenticating: creating auth client');
             const authClient = new androidpublisher_1.auth.GoogleAuth({
@@ -135,7 +153,15 @@ function run() {
 }
 function cleanup() {
     return __awaiter(this, void 0, void 0, function* () {
-        yield fs.promises.unlink(serviceAccountFile);
+        // Only delete the file if we created it (not if it was provided)
+        if (isServiceAccountJsonRaw) {
+            try {
+                yield fs.promises.unlink(serviceAccountFile);
+            }
+            catch (error) {
+                core.warning(`Failed to delete temporary service account file: ${error}`);
+            }
+        }
     });
 }
 exports.cleanup = cleanup;
