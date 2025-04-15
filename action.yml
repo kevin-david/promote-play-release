@@ -7,7 +7,10 @@ branding:
 inputs:
   service-account-json-raw:
     description: "The raw json text of the service account private key to authorize the upload request"
-    required: true
+    required: false
+  service-account-json-file:
+    description: "The file contains the service account json token to authorize the upload request"
+    required: false
   package-name:
     description: "The package name, or Application Id, of the app you are editing"
     required: true
