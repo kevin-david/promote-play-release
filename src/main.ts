@@ -11,7 +11,7 @@ let isServiceAccountJsonRaw = false
 
 async function run(): Promise<void> {
   try {
-    // Code initially taken from https://github.com/boswelja/promote-play-beta-action
+    // Code initially taken from https://github.com/kevin-david/promote-play-release
 
     const packageName = core.getInput('package-name', { required: true })
     const rawServiceAccountJson = core.getInput('service-account-json-raw')

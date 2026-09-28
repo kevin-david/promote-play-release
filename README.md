@@ -1,5 +1,5 @@
 # Promote Play Release Action
-> Typescript fork of https://github.com/boswelja/promote-play-beta-action
+> Typescript fork of https://github.com/kevin-david/promote-play-release
 
 A GitHub Action that promotes Android app releases between different tracks on Google Play (e.g., from beta to production). This action is particularly useful when combined with the [upload-google-play](https://github.com/r0adkll/upload-google-play) action to create a complete CI/CD pipeline for your Android app.
 
@@ -102,16 +102,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-          
+
       - name: Build Release Bundle
         run: ./gradlew bundleRelease
-        
+
       - name: Upload to Internal Testing
         uses: r0adkll/upload-google-play@v2
         with:
@@ -120,7 +120,7 @@ jobs:
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: internal
           status: completed
-          
+
       - name: Promote to Beta
         uses: kevin-david/promote-play-release@v1
         with:

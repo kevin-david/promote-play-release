@@ -5,7 +5,11 @@ const config = {
     moduleFileExtensions: ['js', 'ts'],
     testMatch: ['**/*.test.ts'],
     transform: {
-        '^.+\\.ts$': 'ts-jest'
+        '^.+\\.ts$': ['ts-jest', {
+            tsconfig: {
+                module: 'commonjs'
+            }
+        }]
     },
     verbose: true
 };

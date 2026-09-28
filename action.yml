@@ -1,6 +1,6 @@
 name: 'Promote Google Play Release Track'
 description: "Promote a release from one track to another on Google Play. Often used with https://github.com/r0adkll/upload-google-play/"
-author: 'kevin-david'
+author: 'NHSDigital'
 branding:
   icon: 'truck'
   color: 'green'
@@ -31,5 +31,5 @@ inputs:
     default: "production"
     required: false
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/index.js'
